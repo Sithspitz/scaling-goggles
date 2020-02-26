@@ -6,7 +6,7 @@ mypackages <- c("GSEABase", "GSVA", "Biobase","RColorBrewer", "scales", "dplyr",
 lapply(mypackages, library, character.only = T)
 source("C:/Users/rbuch/Local Documents/PhD/Local_R_Repos/functions/functions.R")
 
-setwd("C:/Users/rbuch/DataShare/Volcano Plot HALLMARK/Troubleshooting Metabolic GSEA/Loop Troubleshooting/Fixing Loop/")
+setwd("C:/Users/rbuch/Local Documents/PhD/Local_R_Repos/scaling-goggles/GSEA Analysis Willcoxon Test Master Script/")
 
 # Pre-processing
 
@@ -31,7 +31,7 @@ for (i in 1:nrow(df2)) {
 }
 
 neg_value_detector_df <- as.data.frame(neg_value_detector)
-setwd("C:/Users/rbuch/DataShare/Volcano Plot HALLMARK/Troubleshooting Metabolic GSEA/Loop Troubleshooting/Fixing Loop/")
+setwd("C:/Users/rbuch/Local Documents/PhD/Local_R_Repos/scaling-goggles/GSEA Analysis Willcoxon Test Master Script/")
 write.csv(neg_value_detector_df, "neg_value_detector_test.csv", row.names = F)
 
 # Willcox tests, p value, q value and fold change calculation
@@ -41,11 +41,8 @@ test_output <- vector()
 for (i in 1:nrow(df2)) {
   print(rownames(data_names[i, ]))
   wil_tested <- wilcox.test(df2[i, 1:10], df2[i, 11:20])
-  q_val <- as.numeric(wil_tested$p.value)
-  q_val <- p.adjust(q_val, method = "fdr", n = 4)
   test_output[length(test_output)+1] <- rownames(data_names[i, ])
   test_output[length(test_output)+1] <- wil_tested$p.value
-  test_output[length(test_output)+1] <- q_val
   if (median(df2[i, 1:10]) > median(df2[i, 11:20])) {
     test_output[length(test_output)+1] <- print ("Up")
   } else {
@@ -68,6 +65,6 @@ for (i in 1:nrow(df2)) {
 }
 
 test_output_df <- as.data.frame(test_output)
-setwd("C:/Users/rbuch/DataShare/Volcano Plot HALLMARK/Troubleshooting Metabolic GSEA/Loop Troubleshooting/Fixing Loop/")
+setwd("C:/Users/rbuch/Local Documents/PhD/Local_R_Repos/scaling-goggles/GSEA Analysis Willcoxon Test Master Script/")
 write.csv(test_output_df, "test_output.csv", row.names = F)
 
